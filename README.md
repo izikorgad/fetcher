@@ -2,8 +2,6 @@
 rest-fetcher
 ============
 
-[![npm stable version][npm-image]][npm-url]
-[![npm next version][npm-next-image]][npm-url]
 [![npm version](https://img.shields.io/npm/v/rest-fetcher.svg?style=flat-square)](https://www.npmjs.com/package/rest-fetcher)
 [![npm downloads](https://img.shields.io/npm/dm/rest-fetcher.svg?style=flat-square)](https://www.npmjs.com/package/rest-fetcher)
 
