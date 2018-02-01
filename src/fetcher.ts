@@ -13,6 +13,62 @@ export class Fetcher {
     baseUrl;
     defaultTimeout
 
+    /**
+     * Send GET REST API call
+     * @param apiEndpoint 
+     * @param params 
+     * @param timeout 
+     */
+    public get(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout) {
+
+        let paramsString = _.map(params, (value: string, key) => {
+            return key + "=" + encodeURIComponent(value);
+        }).join("&");
+
+        const endpoint = this.baseUrl + apiEndpoint + (paramsString ? `?${paramsString}` : "");
+        return this.doRequest(endpoint, undefined, timeout);
+    }
+
+    /**
+     * Send POST REST API call
+     * @param apiEndpoint 
+     * @param params 
+     * @param timeout 
+     */
+    public post(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout) {
+        this.callRestMethod(apiEndpoint,"POST",timeout, params);
+    }
+
+    /**
+     * Send PUT REST API call
+     * @param apiEndpoint 
+     * @param params 
+     * @param timeout 
+     */
+    public put(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout) {
+        this.callRestMethod(apiEndpoint,"PUT",timeout, params);
+    }
+
+    /**
+     * Send PATCH REST API call
+     * @param apiEndpoint 
+     * @param params 
+     * @param timeout 
+     */
+    public pathc(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout) {
+        this.callRestMethod(apiEndpoint,"PATCH",timeout, params);
+    }
+
+    /**
+     * Send DELETE REST API call
+     * @param apiEndpoint 
+     * @param params 
+     * @param timeout 
+     */
+    public delete(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout) {
+        this.callRestMethod(apiEndpoint,"DELETE",timeout, params);
+    }
+
     private async doRequest(apiEndpoint: string, requestObj?: RequestInit, timeout: number = this.defaultTimeout) {
         try {
             let timeoutObj = setTimeout(() => { throw new Error("Request timed out.") }, timeout);
@@ -59,22 +115,11 @@ export class Fetcher {
         }
     }
 
-    public get(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout) {
-
-        let paramsString = _.map(params, (value: string, key) => {
-            return key + "=" + encodeURIComponent(value);
-        }).join("&");
-
-        const endpoint = this.baseUrl + apiEndpoint + (paramsString ? `?${paramsString}` : "");
-        return this.doRequest(endpoint, undefined, timeout);
-    }
-
-    public post(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout) {
-
+    private callRestMethod(apiEndpoint, method: "POST" | "PUT" | "PATCH" | "DELETE", timeout, params?) {
         const endpoint = this.baseUrl + apiEndpoint;
 
         const requestObj: RequestInit = {
-            method: "POST",
+            method: "DELETE",
             body: JSON.stringify(params),
             headers: {
                 "Accept": "application/json",
