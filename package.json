@@ -15,11 +15,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/izikorgad/fetcher"
+    "url": "https://github.com/izikorgad/fetcher.git"
   },
-  "keywords": [],
+  "keywords": [
+    "REST",
+    "API",
+    "fetch",
+    "request",
+    "fetcher"
+  ],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@types/node": "^8.5.7",
     "lodash": "^4.17.4",
