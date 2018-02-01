@@ -2,10 +2,9 @@
   "name": "rest-fetcher",
   "version": "1.0.1",
   "description": "REST API Fetcher module.",
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "lib/fetcher.js",
+  "typings": "lib/fetcher.d.ts",
   "files": [
-    "src",
     "lib",
     "package.json",
     "tsconfig.json",
