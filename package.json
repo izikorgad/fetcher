@@ -1,7 +1,7 @@
 {
-  "name": "fetcher",
+  "name": "rest-fetcher",
   "version": "1.0.0",
-  "description": "API Fetcher module.",
+  "description": "REST API Fetcher module.",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "files": [
@@ -23,7 +23,8 @@
   "license": "ISC",
   "dependencies": {
     "@types/node": "^8.5.7",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "node-fetch": "^1.7.3"
   },
   "devDependencies": {
     "typescript": "^2.6.2"

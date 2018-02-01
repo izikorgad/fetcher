@@ -31,3 +31,4 @@ lib
 
 # Users Environment Variables
 .lock-wscript
+.npmrc

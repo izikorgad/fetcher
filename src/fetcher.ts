@@ -1,7 +1,9 @@
 import _ = require("lodash");
+import fetch from "node-fetch";
+
 const UNAUTHORIZED_ERR_CODE = 401;
 
-export default class ApiRequest {
+export default class Fetcher {
 
     constructor(baseUrl, defaultTimeout = 60000) {
         this.baseUrl = baseUrl;
