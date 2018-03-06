@@ -24,7 +24,7 @@
     "request",
     "fetcher"
   ],
-  "author": "",
+  "author": "Izik Orgad",
   "license": "MIT",
   "dependencies": {
     "@types/node": "^8.5.7",
