@@ -5,13 +5,15 @@ const UNAUTHORIZED_ERR_CODE = 401;
 
 export class Fetcher {
 
-    constructor(baseUrl, defaultTimeout = 60000) {
+    constructor(baseUrl, defaultTimeout = 60000, defaultHeaders?) {
         this.baseUrl = baseUrl;
         this.defaultTimeout = defaultTimeout;
+        this.defaultHeaders = defaultHeaders;
     }
 
-    baseUrl;
-    defaultTimeout
+    private baseUrl;
+    private defaultTimeout;
+    private defaultHeaders;
 
     /**
      * Send GET REST API call
@@ -19,14 +21,19 @@ export class Fetcher {
      * @param params 
      * @param timeout 
      */
-    public get(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout) {
+    public get(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout, headers?) {
 
         let paramsString = _.map(params, (value: string, key) => {
             return key + "=" + encodeURIComponent(value);
         }).join("&");
 
         const endpoint = this.baseUrl + apiEndpoint + (paramsString ? `?${paramsString}` : "");
-        return this.doRequest(endpoint, undefined, timeout);
+
+        const requestObj: RequestInit = !headers && !this.defaultHeaders? undefined : {
+            method: "GET",
+            headers: !!this.defaultHeaders ? { ...this.defaultHeaders, ...(headers || {}) } : headers
+        };
+        return this.doRequest(endpoint, requestObj, timeout);
     }
 
     /**
@@ -35,8 +42,8 @@ export class Fetcher {
      * @param params 
      * @param timeout 
      */
-    public post(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout) {
-        this.callRestMethod(apiEndpoint,"POST",timeout, params);
+    public post(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout, headers?) {
+        this.callRestMethod(apiEndpoint, "POST", timeout, params);
     }
 
     /**
@@ -45,8 +52,8 @@ export class Fetcher {
      * @param params 
      * @param timeout 
      */
-    public put(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout) {
-        this.callRestMethod(apiEndpoint,"PUT",timeout, params);
+    public put(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout, headers?) {
+        this.callRestMethod(apiEndpoint, "PUT", timeout, params);
     }
 
     /**
@@ -55,8 +62,8 @@ export class Fetcher {
      * @param params 
      * @param timeout 
      */
-    public pathc(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout) {
-        this.callRestMethod(apiEndpoint,"PATCH",timeout, params);
+    public pathc(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout, headers?) {
+        this.callRestMethod(apiEndpoint, "PATCH", timeout, params);
     }
 
     /**
@@ -66,10 +73,10 @@ export class Fetcher {
      * @param timeout 
      */
     public delete(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout) {
-        this.callRestMethod(apiEndpoint,"DELETE",timeout, params);
+        this.callRestMethod(apiEndpoint, "DELETE", timeout, params);
     }
 
-    private async doRequest(apiEndpoint: string, requestObj?: RequestInit, timeout: number = this.defaultTimeout) {
+    private async doRequest(apiEndpoint: string, requestObj?: RequestInit, timeout: number = this.defaultTimeout, headers?) {
         try {
             let timeoutObj = setTimeout(() => { throw new Error("Request timed out.") }, timeout);
 
@@ -115,17 +122,22 @@ export class Fetcher {
         }
     }
 
-    private callRestMethod(apiEndpoint, method: "POST" | "PUT" | "PATCH" | "DELETE", timeout, params?) {
+    private callRestMethod(apiEndpoint, method: "POST" | "PUT" | "PATCH" | "DELETE", timeout, params?, headers?) {
         const endpoint = this.baseUrl + apiEndpoint;
 
         const requestObj: RequestInit = {
-            method: "DELETE",
+            method: method,
             body: JSON.stringify(params),
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             }
         };
+
+        if (!!headers) {
+            requestObj.headers = !!this.defaultHeaders ? { ...this.defaultHeaders, ...this.defaultHeaders, ...headers } : { ...requestObj.headers, ...headers };
+        }
+
         console.debug(endpoint, requestObj);
         return this.doRequest(endpoint, requestObj, timeout);
     }

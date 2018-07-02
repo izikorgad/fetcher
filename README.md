@@ -21,7 +21,7 @@ $ npm install rest-fetcher --save
 
 ## Usage
 ```javascript
-import Fetcher from 'rest-fetcher';
+import { Fetcher } from 'rest-fetcher';
 const fetcher = new Fetcher('http://<your_server_url>');
 
 
@@ -48,6 +48,19 @@ const response = await fetcher.get('/some/api/path', args);
 
  // Furthetrmore, you can overwite the default timeout on a psecific API call:
  response = await fetcher.post('/some/api/path', args, 300000);
+
+
+```
+
+## Headers Support
+```javascript
+import { Fetcher } from 'rest-fetcher';
+
+// You can assign default headers (optional) that will be sent upon each request
+const fetcher = new Fetcher('http://<your_server_url>',undefined, { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' });
+
+// Or send headers for a specific request (in this case those headers will be added to the default).
+const response = await fetcher.get('/some/api/path', args, headers);
 
 
 ```
