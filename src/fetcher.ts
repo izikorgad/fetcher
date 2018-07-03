@@ -29,7 +29,7 @@ export class Fetcher {
 
         const endpoint = this.baseUrl + apiEndpoint + (paramsString ? `?${paramsString}` : "");
 
-        const requestObj: RequestInit = !headers && !this.defaultHeaders? undefined : {
+        const requestObj: RequestInit = !headers && !this.defaultHeaders ? undefined : {
             method: "GET",
             headers: !!this.defaultHeaders ? { ...this.defaultHeaders, ...(headers || {}) } : headers
         };
@@ -92,8 +92,10 @@ export class Fetcher {
                             return;
                         });
                     }
+                    else if (response.headers.get("Content-Type") === "application/json")
+                        return await response.json();
                     else
-                        return response.json();
+                        return await response.text();
                 }
                 else {
                     const errMsg = await response.text();
