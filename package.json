@@ -1,6 +1,6 @@
 {
   "name": "rest-fetcher",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "REST API Fetcher module.",
   "main": "lib/fetcher.js",
   "typings": "lib/fetcher.d.ts",
