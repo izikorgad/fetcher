@@ -27,8 +27,7 @@
   "license": "MIT",
   "dependencies": {
     "@types/node": "^8.5.7",
-    "lodash": "^4.17.4",
-    "node-fetch": "^1.7.3"
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
     "typescript": "^2.6.2"
