@@ -77,7 +77,7 @@ const response = await fetcher.get('/some/api/path', args, headers);
 ```javascript
 import { Fetcher } from 'rest-fetcher';
 
-// You can assign default headers (optional) that will be sent upon each request
+// You can set credentials mode (optional) that will be sent upon each request
 const config = {
         baseUrl: 'http://<your_server_url>',
         credentialsMode: "include" // | "same-origin" | "omit"
