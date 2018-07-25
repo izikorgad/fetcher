@@ -1,19 +1,29 @@
 import _ = require("lodash");
-// import fetch from "node-fetch";
 
 const UNAUTHORIZED_ERR_CODE = 401;
+const DEFAULT_TIMEOUT = 60000;
+
+export interface FetcherConfig {
+    baseUrl: string;
+    defaultTimeout?: number;
+    credentialsMode?: RequestCredentials;
+    defaultHeaders?: {};
+}
 
 export class Fetcher {
 
-    constructor(baseUrl, defaultTimeout = 60000, defaultHeaders?) {
+    constructor(config: FetcherConfig) {
+        const { baseUrl, defaultTimeout, credentialsMode, defaultHeaders } = config;
         this.baseUrl = baseUrl;
-        this.defaultTimeout = defaultTimeout;
+        this.defaultTimeout = defaultTimeout || DEFAULT_TIMEOUT;
         this.defaultHeaders = defaultHeaders;
+        this.credentialsMode = credentialsMode;
     }
 
     private baseUrl;
     private defaultTimeout;
     private defaultHeaders;
+    private credentialsMode: RequestCredentials;
 
     /**
      * Send GET REST API call
@@ -107,7 +117,11 @@ export class Fetcher {
                 }
             };
 
-            const options = { ...requestObj, credentials: "include" } as RequestInit;
+            let options;
+            if (!!this.credentialsMode)
+                options = { ...requestObj, credentials: this.credentialsMode } as RequestInit;
+            else
+                options = requestObj;
 
             const response = await fetch(apiEndpoint, options);
 
