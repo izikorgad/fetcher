@@ -95,14 +95,16 @@ export class Fetcher {
 
                 if (response.ok) {
 
+                    const contentType = response.headers.get("Content-Type");
+
                     // support application/json or application/force-download (file) responses:
-                    if (response.headers.get("Content-Type") === "application/force-download") {
+                    if (contentType && contentType === "application/force-download") {
                         return response.blob().then(blob => {
                             this.saveBlobToFile(blob);
                             return;
                         });
                     }
-                    else if (response.headers.get("Content-Type") === "application/json")
+                    else if (contentType && contentType.indexOf("application/json") > -1)
                         return await response.json();
                     else
                         return await response.text();
