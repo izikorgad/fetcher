@@ -53,7 +53,7 @@ export class Fetcher {
      * @param timeout 
      */
     public post(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout, headers?) {
-        return this.callRestMethod(apiEndpoint, "POST", timeout, params);
+        return this.callRestMethod(apiEndpoint, "POST", timeout, params, headers);
     }
 
     /**
@@ -63,7 +63,7 @@ export class Fetcher {
      * @param timeout 
      */
     public put(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout, headers?) {
-        return this.callRestMethod(apiEndpoint, "PUT", timeout, params);
+        return this.callRestMethod(apiEndpoint, "PUT", timeout, params, headers);
     }
 
     /**
@@ -73,7 +73,7 @@ export class Fetcher {
      * @param timeout 
      */
     public pathc(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout, headers?) {
-        return this.callRestMethod(apiEndpoint, "PATCH", timeout, params);
+        return this.callRestMethod(apiEndpoint, "PATCH", timeout, params,headers);
     }
 
     /**
@@ -82,8 +82,8 @@ export class Fetcher {
      * @param params 
      * @param timeout 
      */
-    public delete(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout) {
-        this.callRestMethod(apiEndpoint, "DELETE", timeout, params);
+    public delete(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout, headers?) {
+        this.callRestMethod(apiEndpoint, "DELETE", timeout, params, headers);
     }
 
     private async doRequest(apiEndpoint: string, requestObj?: RequestInit, timeout: number = this.defaultTimeout, headers?) {
@@ -146,10 +146,7 @@ export class Fetcher {
         const requestObj: RequestInit = {
             method: method,
             body: JSON.stringify(params),
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
+            headers: !!this.defaultHeaders ? { ...this.defaultHeaders, ...(headers || {}) } : headers
         };
 
         if (!!headers) {
