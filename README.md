@@ -15,7 +15,8 @@ $ npm install rest-fetcher --save
 
 ## Features
 
-- Lightweight REST API module (based on node-fetch).
+- Lightweight REST API module.
+- Support both browser and node.js runtime environment (based on isomorphic-fetch).
 - Built-in client-side timeout.
 - Error handling.
 
@@ -27,20 +28,20 @@ const fetcher = new Fetcher(config);
 
 
 // For GET requests
-// args are optional parameter.
-const response = await fetcher.get('/some/api/path', args);
+// args are optional key-value paris for query parameters.
+const response = await fetcher.get('/some/api/path', [ { p1: 'k1' }, { p2: 'k2' } ]);
 
 // For POST requests
- response = await fetcher.post('/some/api/path', args);
+ response = await fetcher.post('/some/api/path', body);
 
  // For PUT requests
- response = await fetcher.put('/some/api/path', args);
+ response = await fetcher.put('/some/api/path', body);
 
  // For PATCH requests
- response = await fetcher.patch('/some/api/path', args);
+ response = await fetcher.patch('/some/api/path', body);
 
  // For DELETE requests
- response = await fetcher.delete('/some/api/path', args);
+ response = await fetcher.delete('/some/api/path', body);
 
 
  // Fetcher module has a built-in client-side timeout (set to 1 minute by default)
@@ -49,7 +50,7 @@ const response = await fetcher.get('/some/api/path', args);
  const fetcher = new Fetcher(config);
 
  // Furthermore, you can overwrite the default timeout on a specific API call:
- response = await fetcher.post('/some/api/path', args, 300000);
+ response = await fetcher.post('/some/api/path', body, 300000);
 
 
 ```
@@ -68,7 +69,7 @@ const fetcher = new Fetcher(config);
 
 
 // Or send headers for a specific request (in this case those headers will be added to the default).
-const response = await fetcher.get('/some/api/path', args, headers);
+const response = await fetcher.get('/some/api/path', body, headers);
 
 
 ```

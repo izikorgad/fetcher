@@ -1,5 +1,16 @@
 import _ = require("lodash");
 
+let lfetch;
+
+// if not running on a browser - use isomorphic-fetch
+if (typeof window === "undefined") {
+    lfetch = require("isomorphic-fetch");
+}
+else {
+    lfetch = fetch;
+}
+
+
 const UNAUTHORIZED_ERR_CODE = 401;
 const DEFAULT_TIMEOUT = 60000;
 
@@ -34,10 +45,10 @@ export class Fetcher {
     public get(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout, headers?) {
 
         let paramsString = _.map(params, (value: string, key) => {
-            return key + "=" + encodeURIComponent(value);
+            return `${key}=${encodeURIComponent(value)}`;
         }).join("&");
 
-        const endpoint = this.baseUrl + apiEndpoint + (paramsString ? `?${paramsString}` : "");
+        const endpoint = `${this.baseUrl}${apiEndpoint}${(paramsString ? `?${paramsString}` : "")}`;
 
         const requestObj: RequestInit = !headers && !this.defaultHeaders ? undefined : {
             method: "GET",
@@ -73,7 +84,7 @@ export class Fetcher {
      * @param timeout 
      */
     public pathc(apiEndpoint: string, params?: any, timeout: number = this.defaultTimeout, headers?) {
-        return this.callRestMethod(apiEndpoint, "PATCH", timeout, params,headers);
+        return this.callRestMethod(apiEndpoint, "PATCH", timeout, params, headers);
     }
 
     /**
@@ -125,7 +136,7 @@ export class Fetcher {
             else
                 options = requestObj;
 
-            const response = await fetch(apiEndpoint, options);
+            const response = await lfetch(apiEndpoint, options);
 
             const responseObject = await handelResponse(response);
 
