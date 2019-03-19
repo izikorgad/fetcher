@@ -26,11 +26,11 @@
   "author": "Izik Orgad",
   "license": "MIT",
   "dependencies": {
-    "@types/node": "^8.5.7",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.17.11"
   },
   "devDependencies": {
+    "@types/node": "^8.5.7",
     "typescript": "^2.6.2"
   }
 }
