@@ -164,7 +164,7 @@ export class Fetcher {
             requestObj.headers = !!this.defaultHeaders ? { ...this.defaultHeaders, ...this.defaultHeaders, ...headers } : { ...requestObj.headers, ...headers };
         }
 
-        console.debug(endpoint, requestObj);
+        // console.debug(endpoint, requestObj);
         return this.doRequest(endpoint, requestObj, timeout);
     }
 
